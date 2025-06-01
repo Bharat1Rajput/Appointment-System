@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const authRoutes = require('./routes/authRoutes');
 const slotRoutes = require('./routes/slotRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
 const app = express();
 
 
@@ -13,6 +14,7 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/slot',slotRoutes);
+app.use('/api/booking',bookingRoutes);
 
 
 app.get('/', (req, res) => {
