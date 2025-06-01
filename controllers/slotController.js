@@ -11,7 +11,6 @@ exports.createSlot = async (req,res)=>{
             providerId: req.user.userId
         
         });
-        console.log('Creating new slot:', newSlot);
         await newSlot.save();
         res.status(201).json({ message: 'Slot created successfully', slot: newSlot });
     } catch (error) {
@@ -63,6 +62,18 @@ exports.deleteSlot = async (req, res) => {
         res.status(200).json({ message: 'Slot deleted successfully' });
     } catch (error) {
         console.error('Error deleting slot:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+
+// for user to see all available unbooked slots
+exports.getAvailableSlots = async (req, res) => {
+    try {
+        const slots = await Slot.find({ isBooked: false }).populate('providerId', 'name email');
+        res.status(200).json(slots);
+    } catch (error) {
+        console.error('Error fetching available slots:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
